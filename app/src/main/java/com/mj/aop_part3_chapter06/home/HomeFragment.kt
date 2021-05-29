@@ -1,11 +1,13 @@
 package com.mj.aop_part3_chapter06.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -61,6 +63,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         fragmentHomeBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentHomeBinding.articleRecyclerView.adapter = articleAdapter
+
+        fragmentHomeBinding.addFloatingButton.setOnClickListener {
+            if(auth.currentUser != null) {
+                val intent = Intent(requireContext(), ArticleAddActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+                Snackbar.make(view, "user after login", Snackbar.LENGTH_LONG).show()
+            }
+        }
 
         articleDB.addChildEventListener(listener)
     }

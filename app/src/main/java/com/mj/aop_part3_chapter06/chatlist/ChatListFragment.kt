@@ -1,5 +1,6 @@
 package com.mj.aop_part3_chapter06.chatlist
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.mj.aop_part3_chapter06.DBKey.Companion.CHILD_CHAT
 import com.mj.aop_part3_chapter06.DBKey.Companion.DB_CHATS
 import com.mj.aop_part3_chapter06.DBKey.Companion.DB_USERS
 import com.mj.aop_part3_chapter06.R
+import com.mj.aop_part3_chapter06.chatdetail.ChatRoomActivity
 import com.mj.aop_part3_chapter06.databinding.FragmentChatListBinding
 import com.mj.aop_part3_chapter06.home.ArticleAdapter
 
@@ -39,8 +41,10 @@ class ChatListFragment : Fragment(R.layout.fragment_home) {
         val fragmentChatListBinding = FragmentChatListBinding.bind(view)
         binding = fragmentChatListBinding
 
-        chatListAdapter = ChatListAdapter(onItemClicked = {
-
+        chatListAdapter = ChatListAdapter(onItemClicked = { chatRoom ->
+            val intent = Intent(requireContext(), ChatRoomActivity::class.java)
+            intent.putExtra("chatKey", chatRoom.key)
+            startActivity(intent)
         })
 
         chatRoomList.clear()
